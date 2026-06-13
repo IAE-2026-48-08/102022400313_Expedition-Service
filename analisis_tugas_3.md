@@ -140,7 +140,7 @@ Alur integrasi pada Expedition Service adalah sebagai berikut:
 
 Berikut adalah sequence diagram transaksi kritis pada Expedition Service, mulai dari eksekusi endpoint `POST /api/v1/expeditions`, penyimpanan data ke database lokal, pengambilan token M2M ke SSO dosen, pengiriman audit ke SOAP, hingga publikasi event ke RabbitMQ.
 
-![Sequence Diagram Expedition Service](evidence-tugas-3/05-sequence-diagram.png)
+![Sequence Diagram Expedition Service](evidence-3/6-sequence-diagram.png)
 
 ---
 
@@ -232,20 +232,24 @@ evidence-tugas-3/
 Daftar evidence:
 
 ```text
-01-sso-token.png
-02-soap-audit.png
-03-rabbitmq-publish.png
-04-swagger-post-integrated.png
+1-sso-token.jpeg
+2-soap-audit.jpeg
+3-rabbitmq-publish.jpeg
+4-swagger-post-integrated.jpeg
+5-dashboard-event.jpeg
+6-sequence-diagram.png
 ```
 
 Keterangan evidence:
 
 | File                             | Keterangan                                                                               |
 | -------------------------------- | ---------------------------------------------------------------------------------------- |
-| `01-sso-token.png`               | Bukti pengambilan M2M token dari SSO dosen                                               |
-| `02-soap-audit.png`              | Bukti SOAP Audit berhasil mengembalikan status sukses dan receipt number                 |
-| `03-rabbitmq-publish.png`        | Bukti event berhasil dipublish ke RabbitMQ                                               |
-| `04-swagger-post-integrated.png` | Bukti endpoint `POST /api/v1/expeditions` berhasil menjalankan integrasi melalui Swagger |
+| `1-sso-token.png`               | Bukti pengambilan M2M token dari SSO dosen                                               |
+| `2-soap-audit.png`              | Bukti SOAP Audit berhasil mengembalikan status sukses dan receipt number                 |
+| `3-rabbitmq-publish.png`        | Bukti event berhasil dipublish ke RabbitMQ                                               |
+| `4-swagger-post-integrated.png` | Bukti endpoint `POST /api/v1/expeditions` berhasil menjalankan integrasi melalui Swagger |
+| `5-dashboard-event.png` | Bukti event dari TEAM-03 muncul pada dashboard/board RabbitMQ dosen |
+| `6-sequence-diagram.png` | Gambar sequence diagram transaksi kritis Expedition Service |
 
 ---
 

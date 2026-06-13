@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Expedition;
 use Illuminate\Http\Request;
+use App\Services\IaeCloudService;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(
@@ -122,27 +123,42 @@ responses: [
     ]
 )]
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'order_id' => 'required|integer',
-            'customer_name' => 'required|string|max:255',
-            'customer_address' => 'required|string',
-            'courier_name' => 'required|string|max:255',
-            'tracking_number' => 'required|string|max:255|unique:expeditions,tracking_number',
-            'shipping_status' => 'nullable|string|max:255',
-        ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'order_id' => 'required|integer',
+        'customer_name' => 'required|string|max:255',
+        'customer_address' => 'required|string',
+        'courier_name' => 'required|string|max:255',
+        'tracking_number' => 'required|string|max:255|unique:expeditions,tracking_number',
+        'shipping_status' => 'nullable|string|max:255',
+    ]);
 
-        $expedition = Expedition::create($validated);
+    $expedition = Expedition::create($validated);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Expedition created successfully',
-            'data' => $expedition,
-            'meta' => [
-                'service_name' => 'Expedition-Service',
-                'api_version' => 'v1'
-            ]
-        ], 201);
-    }
-}
+    $iaeCloud = new IaeCloudService();
+
+    $receiptNumber = $iaeCloud->sendSoapAudit($expedition->toArray());
+    $rabbitPublished = $iaeCloud->publishRabbitMq($expedition->toArray());
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Expedition created successfully',
+        'data' => $expedition,
+        'integration' => [
+            'soap_audit' => [
+                'status' => $receiptNumber ? 'success' : 'failed',
+                'receipt_number' => $receiptNumber,
+            ],
+            'rabbitmq' => [
+                'status' => $rabbitPublished ? 'success' : 'failed',
+                'event' => 'expedition.created',
+            ],
+        ],
+        'meta' => [
+            'service_name' => 'Expedition-Service',
+            'api_version' => 'v1'
+        ]
+    ], 201);
+  }
+} 

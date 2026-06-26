@@ -40,6 +40,7 @@ return [
     'api_key' => env('IAE_API_KEY'),
     'team_id' => env('IAE_TEAM_ID', 'TEAM-03'),
     'exchange' => env('IAE_EXCHANGE', 'iae.central.exchange'),
+    'nim' => env('IAE_NIM'),
 ],
 
 ];

@@ -17,13 +17,18 @@ class IaeCloudService
         $this->apiKey = config('services.iae_cloud.api_key');
         $this->teamId = config('services.iae_cloud.team_id');
         $this->exchange = config('services.iae_cloud.exchange');
+        $this->nim = config('services.iae_cloud.nim');
     }
 
     public function getToken(): ?string
     {
-        $response = Http::withoutVerifying()->post($this->baseUrl . '/api/v1/auth/token', [
-    'api_key' => $this->apiKey,
-]);
+       $response = Http::withoutVerifying()->post(
+    $this->baseUrl . '/api/v1/auth/token',
+    [
+        'api_key' => $this->apiKey,
+         'nim' => $this->nim,
+    ]
+);
 
         if (!$response->successful()) {
             return null;

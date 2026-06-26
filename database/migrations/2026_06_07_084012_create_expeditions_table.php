@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
 {
     Schema::create('expeditions', function (Blueprint $table) {
-        $table->id();
-        $table->unsignedBigInteger('order_id');
-        $table->string('customer_name');
-        $table->text('customer_address');
-        $table->string('courier_name');
-        $table->string('tracking_number')->unique();
-        $table->string('shipping_status')->default('processing');
-        $table->timestamp('shipped_at')->nullable();
-        $table->timestamp('delivered_at')->nullable();
-        $table->timestamps();
-    });
+    $table->id();
+    $table->string('order_id');
+    $table->string('customer_name');
+    $table->text('customer_address');
+    $table->string('courier_name');
+    $table->string('tracking_number')->unique();
+    $table->string('shipping_status')->default('processing');
+    $table->timestamp('shipped_at')->nullable();
+    $table->timestamp('delivered_at')->nullable();
+    $table->timestamps();
+});
 }
 
     /**

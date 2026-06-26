@@ -108,7 +108,7 @@ responses: [
         content: new OA\JsonContent(
             required: ["order_id", "customer_name", "customer_address", "courier_name", "tracking_number"],
             properties: [
-                new OA\Property(property: "order_id", type: "integer", example: 1),
+                new OA\Property(property: "order_id", type: "string", example: "ORD-001"),
                 new OA\Property(property: "customer_name", type: "string", example: "Meilisya Nabila"),
                 new OA\Property(property: "customer_address", type: "string", example: "Jl. Buah Batu No. 1, Bandung"),
                 new OA\Property(property: "courier_name", type: "string", example: "JNE"),
@@ -126,7 +126,7 @@ responses: [
 public function store(Request $request)
 {
     $validated = $request->validate([
-        'order_id' => 'required|integer',
+        'order_id' => 'required|string|max:255',
         'customer_name' => 'required|string|max:255',
         'customer_address' => 'required|string',
         'courier_name' => 'required|string|max:255',

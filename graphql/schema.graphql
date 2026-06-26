@@ -1,6 +1,6 @@
 type Expedition {
     id: ID!
-    order_id: Int!
+    order_id: String!
     customer_name: String!
     customer_address: String!
     courier_name: String!
